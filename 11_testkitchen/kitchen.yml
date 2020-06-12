@@ -1,0 +1,35 @@
+driver:
+  name: ec2
+  aws_ssh_key_id: JenkinsMumbai
+  region: ap-south-1
+  availability_zone: ap-south-1b
+  require_chef_omnibus: true
+  security_group_ids:  sg-05264f19be83f26d6
+  subnet_id: subnet-d774ef9b
+  associate_public_ip: true
+  interface: dns
+
+provisioner:
+  name: chef_solo
+  product_version: 14.10.9      
+  chef_license: accept
+
+platforms:
+  - name: amazon
+    driver:
+      image_id: ami-0b44050b2d893d5f7
+    transport:
+      username: ubuntu
+      ssh_key: ~/JenkinsMumbai.pem
+
+verifier:
+  name: inspec
+
+suites:
+  - name: default
+    run_list:
+      - recipe[nginx::default]
+    verifier:
+      inspec_tests:
+        - test/integration/default    
+    attributes:
