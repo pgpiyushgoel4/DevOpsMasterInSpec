@@ -5,7 +5,7 @@ control 'Apache install' do
   end
 end  
 
-control 'Apache should be running' do // can go in single control block also
+control 'Apache should be running' do // can go in single control block also written by me
   describe service 'apache2' do
     it { should be_running }
   end
